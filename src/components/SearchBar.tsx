@@ -16,7 +16,7 @@ export function SearchBar({ searchQuery, onSearchChange }: SearchBarProps) {
         placeholder="Search by ticker or company..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="pl-10 bg-white/80 backdrop-blur-sm border-gray-200 focus:border-blue-500 transition-colors"
+        className="pl-10 bg-gray-800/60 backdrop-blur-sm border-gray-600 text-white placeholder-gray-400 focus:border-blue-500 transition-colors"
       />
     </div>
   );
