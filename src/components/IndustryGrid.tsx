@@ -5,12 +5,15 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { IndustryData } from '@/pages/Index';
 import { SENTIMENT_CONFIG } from '@/constants/dashboard';
+import { useNavigate } from 'react-router-dom';
 
 interface IndustryGridProps {
   industries: IndustryData[];
 }
 
 export function IndustryGrid({ industries }: IndustryGridProps) {
+  const navigate = useNavigate();
+
   const getSentimentIcon = (sentiment: string) => {
     switch (sentiment) {
       case 'positive':
@@ -122,10 +125,8 @@ export function IndustryGrid({ industries }: IndustryGridProps) {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="w-full dashboard-text-secondary border-gray-700 hover:bg-gray-800 hover:text-white"
-                onClick={() => {
-                  console.log(`Navigate to ${industry.name} industry page`);
-                }}
+                className="w-full text-blue-400 border-blue-500/30 hover:bg-blue-500/10 hover:border-blue-400 hover:text-blue-300 transition-all"
+                onClick={() => navigate(`/industry/${industry.name}`)}
               >
                 View All Companies
                 <ChevronRight className="h-4 w-4 ml-1" />
