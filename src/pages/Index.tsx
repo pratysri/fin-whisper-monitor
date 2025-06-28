@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { SearchBar } from '@/components/SearchBar';
 import { FilterPanel } from '@/components/FilterPanel';
-import { ViewToggle } from '@/components/ViewToggle';
 import { OverallSentimentChart } from '@/components/OverallSentimentChart';
 import { IndustryGrid } from '@/components/IndustryGrid';
 import { LatestUpdates } from '@/components/LatestUpdates';
+import { SourcePanel } from '@/components/SourcePanel';
 import { Activity } from 'lucide-react';
 
 export type ViewMode = 'cards' | 'table';
@@ -48,7 +47,6 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSources, setSelectedSources] = useState<Source[]>(['twitter', 'reddit', 'stocktwits', 'news']);
   const [selectedSentiments, setSelectedSentiments] = useState<Sentiment[]>(['positive', 'neutral', 'negative']);
-  const [viewMode, setViewMode] = useState<ViewMode>('cards');
   const [posts, setPosts] = useState<SentimentPost[]>([]);
   const [industries, setIndustries] = useState<IndustryData[]>([]);
 
@@ -185,9 +183,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900">
+    <div className="min-h-screen dashboard-gradient-bg">
       {/* Header */}
-      <header className="bg-gray-900/80 backdrop-blur-md border-b border-gray-700 sticky top-0 z-50">
+      <header className="bg-gray-900/90 backdrop-blur-md border-b border-gray-700/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -195,17 +193,14 @@ const Index = () => {
                 <Activity className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">Market Sentiment</h1>
-                <p className="text-sm text-gray-300">Real-time social & news analysis</p>
+                <h1 className="text-2xl font-bold dashboard-text-primary">Market Sentiment</h1>
+                <p className="text-sm dashboard-text-secondary">Real-time social & news analysis</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-300">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>Live Updates</span>
-              </div>
-              <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+            <div className="flex items-center space-x-2 text-sm dashboard-text-secondary">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span>Live Updates</span>
             </div>
           </div>
         </div>
@@ -229,6 +224,9 @@ const Index = () => {
 
         {/* Overall Sentiment Chart */}
         <OverallSentimentChart sentiment={overallSentiment} />
+
+        {/* Source Panel */}
+        <SourcePanel selectedSources={selectedSources} />
 
         {/* Industry Grid */}
         <IndustryGrid industries={industries} />

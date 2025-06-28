@@ -10,13 +10,13 @@ interface SearchBarProps {
 export function SearchBar({ searchQuery, onSearchChange }: SearchBarProps) {
   return (
     <div className="relative max-w-md">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
       <Input
         type="text"
         placeholder="Search by ticker or company..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="pl-10 bg-gray-800/60 backdrop-blur-sm border-gray-600 text-white placeholder-gray-400 focus:border-blue-500 transition-colors"
+        className="pl-10 bg-gray-800/80 backdrop-blur-sm border-gray-700 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:bg-gray-800 transition-all"
       />
     </div>
   );

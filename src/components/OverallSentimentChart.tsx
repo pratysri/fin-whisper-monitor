@@ -1,7 +1,8 @@
 
 import { Card } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { SENTIMENT_COLORS } from '@/constants/dashboard';
 
 interface OverallSentimentChartProps {
   sentiment: {
@@ -11,50 +12,37 @@ interface OverallSentimentChartProps {
   };
 }
 
-const COLORS = {
-  positive: '#10b981',
-  neutral: '#6b7280',
-  negative: '#ef4444'
-};
-
 export function OverallSentimentChart({ sentiment }: OverallSentimentChartProps) {
   const pieData = [
-    { name: 'Positive', value: sentiment.positive, color: COLORS.positive },
-    { name: 'Neutral', value: sentiment.neutral, color: COLORS.neutral },
-    { name: 'Negative', value: sentiment.negative, color: COLORS.negative },
-  ];
-
-  const barData = [
-    { name: 'Positive', value: sentiment.positive, fill: COLORS.positive },
-    { name: 'Neutral', value: sentiment.neutral, fill: COLORS.neutral },
-    { name: 'Negative', value: sentiment.negative, fill: COLORS.negative },
+    { name: 'Positive', value: sentiment.positive, color: SENTIMENT_COLORS.positive },
+    { name: 'Neutral', value: sentiment.neutral, color: SENTIMENT_COLORS.neutral },
+    { name: 'Negative', value: sentiment.negative, color: SENTIMENT_COLORS.negative },
   ];
 
   const chartConfig = {
-    positive: { label: 'Positive', color: COLORS.positive },
-    neutral: { label: 'Neutral', color: COLORS.neutral },
-    negative: { label: 'Negative', color: COLORS.negative },
+    positive: { label: 'Positive', color: SENTIMENT_COLORS.positive },
+    neutral: { label: 'Neutral', color: SENTIMENT_COLORS.neutral },
+    negative: { label: 'Negative', color: SENTIMENT_COLORS.negative },
   };
 
   return (
-    <Card className="p-6 bg-gradient-to-r from-gray-800/50 to-gray-700/50 border-gray-600 backdrop-blur-sm">
+    <Card className="p-6 dashboard-card">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Overall Market Sentiment</h2>
-        <p className="text-gray-300">Real-time sentiment analysis across all sources</p>
+        <h2 className="text-2xl font-bold dashboard-text-primary mb-2">Overall Market Sentiment</h2>
+        <p className="dashboard-text-secondary">Real-time sentiment analysis across all sources</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="flex flex-col lg:flex-row items-center gap-8">
         {/* Pie Chart */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Distribution</h3>
-          <ChartContainer config={chartConfig} className="h-64">
+        <div className="flex-1">
+          <ChartContainer config={chartConfig} className="h-80">
             <PieChart>
               <Pie
                 data={pieData}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={100}
+                innerRadius={80}
+                outerRadius={140}
                 paddingAngle={2}
                 dataKey="value"
               >
@@ -67,33 +55,22 @@ export function OverallSentimentChart({ sentiment }: OverallSentimentChartProps)
           </ChartContainer>
         </div>
 
-        {/* Bar Chart */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Breakdown</h3>
-          <ChartContainer config={chartConfig} className="h-64">
-            <BarChart data={barData}>
-              <XAxis dataKey="name" tick={{ fill: '#d1d5db' }} />
-              <YAxis tick={{ fill: '#d1d5db' }} />
-              <Bar dataKey="value" radius={[4, 4, 0, 0]} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-            </BarChart>
-          </ChartContainer>
-        </div>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-600">
-        <div className="text-center">
-          <div className="text-3xl font-bold text-green-400">{sentiment.positive}%</div>
-          <div className="text-sm text-gray-300">Positive</div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl font-bold text-gray-400">{sentiment.neutral}%</div>
-          <div className="text-sm text-gray-300">Neutral</div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl font-bold text-red-400">{sentiment.negative}%</div>
-          <div className="text-sm text-gray-300">Negative</div>
+        {/* Summary Stats */}
+        <div className="flex-1 space-y-6">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="text-center p-6 dashboard-card rounded-lg">
+              <div className="text-4xl font-bold text-emerald-400 mb-2">{sentiment.positive}%</div>
+              <div className="dashboard-text-secondary">Positive Sentiment</div>
+            </div>
+            <div className="text-center p-6 dashboard-card rounded-lg">
+              <div className="text-4xl font-bold text-gray-400 mb-2">{sentiment.neutral}%</div>
+              <div className="dashboard-text-secondary">Neutral Sentiment</div>
+            </div>
+            <div className="text-center p-6 dashboard-card rounded-lg">
+              <div className="text-4xl font-bold text-red-400 mb-2">{sentiment.negative}%</div>
+              <div className="dashboard-text-secondary">Negative Sentiment</div>
+            </div>
+          </div>
         </div>
       </div>
     </Card>
