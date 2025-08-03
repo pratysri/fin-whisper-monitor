@@ -4,18 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Source, Sentiment } from '@/pages/Index';
 import { Twitter, MessageCircle, TrendingUp, Newspaper } from 'lucide-react';
+import { SOURCE_CONFIG, SENTIMENT_CONFIG } from '@/constants/dashboard';
 
-const sourceConfig = {
-  twitter: { label: 'Twitter', icon: Twitter, color: 'bg-blue-500', hoverColor: 'hover:bg-blue-600' },
-  reddit: { label: 'Reddit', icon: MessageCircle, color: 'bg-orange-500', hoverColor: 'hover:bg-orange-600' },
-  stocktwits: { label: 'StockTwits', icon: TrendingUp, color: 'bg-green-500', hoverColor: 'hover:bg-green-600' },
-  news: { label: 'News', icon: Newspaper, color: 'bg-purple-500', hoverColor: 'hover:bg-purple-600' }
-};
-
-const sentimentConfig = {
-  positive: { label: 'Positive', color: 'bg-green-500', hoverColor: 'hover:bg-green-600' },
-  neutral: { label: 'Neutral', color: 'bg-gray-500', hoverColor: 'hover:bg-gray-600' },
-  negative: { label: 'Negative', color: 'bg-red-500', hoverColor: 'hover:bg-red-600' }
+const sourceIcons = {
+  twitter: Twitter,
+  reddit: MessageCircle,
+  stocktwits: TrendingUp,
+  news: Newspaper
 };
 
 interface FilterPanelProps {
@@ -48,15 +43,15 @@ export function FilterPanel({
   };
 
   return (
-    <Card className="p-4 bg-gray-800/60 backdrop-blur-sm border-gray-600">
+    <Card className="p-4 dashboard-card border-gray-700">
       <div className="space-y-4">
         {/* Sources Filter */}
         <div>
-          <h3 className="text-sm font-medium text-gray-300 mb-2">Sources</h3>
+          <h3 className="text-sm font-medium dashboard-text-primary mb-2">Sources</h3>
           <div className="flex flex-wrap gap-2">
-            {(Object.keys(sourceConfig) as Source[]).map((source) => {
-              const config = sourceConfig[source];
-              const Icon = config.icon;
+            {(Object.keys(SOURCE_CONFIG) as Source[]).map((source) => {
+              const config = SOURCE_CONFIG[source];
+              const Icon = sourceIcons[source];
               const isSelected = selectedSources.includes(source);
               
               return (
@@ -67,8 +62,8 @@ export function FilterPanel({
                   onClick={() => toggleSource(source)}
                   className={`transition-all duration-200 ${
                     isSelected 
-                      ? `${config.color} ${config.hoverColor} text-white` 
-                      : 'bg-gray-700/50 border-gray-600 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                      ? `${config.bgColor} ${config.color} border-gray-600 hover:opacity-80` 
+                      : 'bg-gray-700/50 border-gray-600 dashboard-text-secondary hover:bg-gray-600/50 hover:text-white'
                   }`}
                 >
                   <Icon className="h-3 w-3 mr-1" />
@@ -81,10 +76,10 @@ export function FilterPanel({
 
         {/* Sentiment Filter */}
         <div>
-          <h3 className="text-sm font-medium text-gray-300 mb-2">Sentiment</h3>
+          <h3 className="text-sm font-medium dashboard-text-primary mb-2">Sentiment</h3>
           <div className="flex flex-wrap gap-2">
-            {(Object.keys(sentimentConfig) as Sentiment[]).map((sentiment) => {
-              const config = sentimentConfig[sentiment];
+            {(Object.keys(SENTIMENT_CONFIG) as Sentiment[]).map((sentiment) => {
+              const config = SENTIMENT_CONFIG[sentiment];
               const isSelected = selectedSentiments.includes(sentiment);
               
               return (
@@ -95,10 +90,11 @@ export function FilterPanel({
                   onClick={() => toggleSentiment(sentiment)}
                   className={`transition-all duration-200 ${
                     isSelected 
-                      ? `${config.color} ${config.hoverColor} text-white` 
-                      : 'bg-gray-700/50 border-gray-600 text-gray-300 hover:bg-gray-600/50 hover:text-white'
+                      ? `${config.bgColor} ${config.textColor} border-gray-600 hover:opacity-80` 
+                      : 'bg-gray-700/50 border-gray-600 dashboard-text-secondary hover:bg-gray-600/50 hover:text-white'
                   }`}
                 >
+                  <span className="mr-1">{config.emoji}</span>
                   {config.label}
                 </Button>
               );
