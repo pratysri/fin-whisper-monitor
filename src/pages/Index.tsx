@@ -3,8 +3,10 @@ import { SearchBar } from '@/components/SearchBar';
 import { FilterPanel } from '@/components/FilterPanel';
 import { OverallSentimentChart } from '@/components/OverallSentimentChart';
 import { IndustryGrid } from '@/components/IndustryGrid';
-import { LatestUpdates } from '@/components/LatestUpdates';
+import { SentimentFeed } from '@/components/SentimentFeed';
 import { SourcePanel } from '@/components/SourcePanel';
+import { StatsPanel } from '@/components/StatsPanel';
+import { ViewToggle } from '@/components/ViewToggle';
 import { Activity } from 'lucide-react';
 
 export type ViewMode = 'cards' | 'table';
@@ -47,6 +49,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSources, setSelectedSources] = useState<Source[]>(['twitter', 'reddit', 'stocktwits', 'news']);
   const [selectedSentiments, setSelectedSentiments] = useState<Sentiment[]>(['positive', 'neutral', 'negative']);
+  const [viewMode, setViewMode] = useState<ViewMode>('cards');
   const [posts, setPosts] = useState<SentimentPost[]>([]);
   const [industries, setIndustries] = useState<IndustryData[]>([]);
 
@@ -222,6 +225,9 @@ const Index = () => {
           />
         </div>
 
+        {/* Statistics Panel */}
+        <StatsPanel posts={filteredPosts} />
+
         {/* Overall Sentiment Chart */}
         <OverallSentimentChart sentiment={overallSentiment} />
 
@@ -231,8 +237,20 @@ const Index = () => {
         {/* Industry Grid */}
         <IndustryGrid industries={industries} />
 
-        {/* Latest Updates */}
-        <LatestUpdates posts={filteredPosts.slice(0, 10)} />
+        {/* Posts Feed */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold dashboard-text-primary">Recent Posts</h2>
+              <p className="dashboard-text-secondary">
+                {filteredPosts.length} posts from selected sources and sentiments
+              </p>
+            </div>
+            <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+          </div>
+          
+          <SentimentFeed posts={filteredPosts} viewMode={viewMode} />
+        </div>
       </div>
     </div>
   );
