@@ -1,73 +1,158 @@
-# Welcome to your Lovable project
+# Fin-Whisper-Monitor 📊
 
-## Project info
+A real-time financial sentiment analysis dashboard that monitors social media and news sources to provide insights into market sentiment across different industries and companies.
 
-**URL**: https://lovable.dev/projects/f1d2e5cf-bd7b-4922-b10a-0ef563d18062
+![Dashboard Preview](https://img.shields.io/badge/Status-Live-brightgreen)
+![React](https://img.shields.io/badge/React-18.3.1-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue)
+![Vite](https://img.shields.io/badge/Vite-5.4.1-purple)
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+### 📈 **Real-time Sentiment Analysis**
+- Monitor sentiment across multiple sources: Twitter, Reddit, StockTwits, and News
+- Live sentiment scoring with confidence levels
+- Industry-specific sentiment breakdowns
 
-**Use Lovable**
+### 🏢 **Industry Coverage**
+- **Technology**: Apple, Microsoft, NVIDIA, Tesla, Meta, and more
+- **Finance**: JPMorgan Chase, Bank of America, Goldman Sachs, and more
+- **Healthcare**: Johnson & Johnson, UnitedHealth, Pfizer, and more
+- **Energy**: Exxon Mobil, Chevron, ConocoPhillips, and more
+- **Retail**: Amazon, Walmart, Home Depot, Costco, and more
+- **Aerospace**: Boeing, Lockheed Martin, Raytheon, and more
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f1d2e5cf-bd7b-4922-b10a-0ef563d18062) and start prompting.
+### 🎛️ **Interactive Dashboard**
+- **View Toggle**: Switch between card and table views for posts
+- **Advanced Filtering**: Filter by source, sentiment, and search terms
+- **Statistics Panel**: Real-time sentiment statistics and metrics
+- **Industry Grid**: Comprehensive industry sentiment overview
+- **Detailed Views**: Click "View All Companies" for industry-specific analysis
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🎨 **Modern UI/UX**
+- Dark theme optimized for financial dashboards
+- Responsive design for desktop and mobile
+- Real-time updates with live indicators
+- Professional financial data visualization
 
-**Use your preferred IDE**
+## 🛠️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Frontend**: React 18 with TypeScript
+- **Build Tool**: Vite for fast development
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Charts**: Recharts for data visualization
+- **Routing**: React Router for navigation
+- **State Management**: React Query for data fetching
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📦 Installation
 
-Follow these steps:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Setup Instructions
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/pratysri/fin-whisper-monitor.git
+   cd fin-whisper-monitor
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:8080` (or the port shown in terminal)
+
+## 🎯 Usage
+
+### Dashboard Overview
+- **Main Dashboard**: View overall market sentiment and industry breakdowns
+- **Search & Filter**: Use the search bar to find specific companies or filter by sentiment/source
+- **Industry Analysis**: Click on any industry card to see detailed company analysis
+- **View Modes**: Toggle between card and table views for different data presentations
+
+### Key Components
+- **StatsPanel**: Shows sentiment distribution across all posts
+- **OverallSentimentChart**: Visual representation of market sentiment
+- **IndustryGrid**: Industry-wise sentiment analysis with top companies
+- **SentimentFeed**: Real-time posts with sentiment analysis
+- **FilterPanel**: Advanced filtering options for sources and sentiments
+
+## 📊 Data Sources
+
+The dashboard currently uses mock data to demonstrate the interface and functionality. In a production environment, this would integrate with:
+
+- **Social Media APIs**: Twitter, Reddit, StockTwits
+- **News APIs**: Financial news sources
+- **Real-time Data**: Live sentiment analysis services
+- **Market Data**: Stock prices and market indicators
+
+## 🔧 Development
+
+### Available Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
 ```
 
-**Edit a file directly in GitHub**
+### Project Structure
+```
+src/
+├── components/      # Reusable UI components
+├── pages/          # Main application pages
+├── constants/      # Configuration and constants
+├── hooks/          # Custom React hooks
+├── lib/            # Utility functions
+└── ui/             # shadcn/ui components
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🎨 Customization
 
-**Use GitHub Codespaces**
+### Adding New Industries
+1. Update `INDUSTRY_ICONS` in `src/constants/dashboard.ts`
+2. Add industry data in `src/pages/Index.tsx`
+3. Add company list in `src/pages/Industry.tsx`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Styling
+- Modify `src/index.css` for global styles
+- Use Tailwind CSS classes for component styling
+- Update color schemes in `src/constants/dashboard.ts`
 
-## What technologies are used for this project?
+## 🤝 Contributing
 
-This project is built with:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📝 License
 
-## How can I deploy this project?
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Simply open [Lovable](https://lovable.dev/projects/f1d2e5cf-bd7b-4922-b10a-0ef563d18062) and click on Share -> Publish.
+## 🔗 Links
 
-## Can I connect a custom domain to my Lovable project?
+- **Live Demo**: [Coming Soon]
+- **Issues**: [GitHub Issues](https://github.com/pratysri/fin-whisper-monitor/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/pratysri/fin-whisper-monitor/discussions)
 
-Yes, you can!
+## 📞 Support
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+If you have any questions or need support, please:
+- Open an issue on GitHub
+- Check the existing discussions
+- Review the documentation
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+
+**Built with ❤️ for financial sentiment analysis**
