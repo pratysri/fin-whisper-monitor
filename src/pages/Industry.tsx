@@ -1,13 +1,14 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Activity } from 'lucide-react';
+import { ArrowLeft, Activity, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { OverallSentimentChart } from '@/components/OverallSentimentChart';
 import { IndustryData, CompanyData } from './Index';
 import { INDUSTRY_ICONS } from '@/constants/dashboard';
+import { useLiveData } from '@/hooks/useLiveData';
 
 const Industry = () => {
   const { industryName } = useParams<{ industryName: string }>();
@@ -15,185 +16,130 @@ const Industry = () => {
   const [industryData, setIndustryData] = useState<IndustryData | null>(null);
   const [allCompanies, setAllCompanies] = useState<CompanyData[]>([]);
 
+  // Use the same live data system as the home page
+  const { 
+    industries, 
+    lastUpdate, 
+    isLoading, 
+    error, 
+    refresh 
+  } = useLiveData({
+    updateInterval: 30000, // 30 seconds
+    enableStockPrices: true,
+    enableSentiment: true,
+  });
+
   useEffect(() => {
-    // Generate expanded mock data for the specific industry
-    const generateIndustryData = () => {
-      const industryConfigs = {
-        technology: {
-          name: 'technology',
-          label: 'Technology',
-          icon: '💻',
-          sentiment: { positive: 65, neutral: 25, negative: 10 }
-        },
-        finance: {
-          name: 'finance',
-          label: 'Finance',
-          icon: '🏦',
-          sentiment: { positive: 45, neutral: 35, negative: 20 }
-        },
-        healthcare: {
-          name: 'healthcare',
-          label: 'Healthcare',
-          icon: '🏥',
-          sentiment: { positive: 55, neutral: 30, negative: 15 }
-        },
-        energy: {
-          name: 'energy',
-          label: 'Energy',
-          icon: '⚡',
-          sentiment: { positive: 40, neutral: 25, negative: 35 }
-        },
-        retail: {
-          name: 'retail',
-          label: 'Retail',
-          icon: '🛍️',
-          sentiment: { positive: 50, neutral: 30, negative: 20 }
-        },
-        aerospace: {
-          name: 'aerospace',
-          label: 'Aerospace',
-          icon: '✈️',
-          sentiment: { positive: 35, neutral: 40, negative: 25 }
-        }
-      };
+    if (!industryName || industries.length === 0) return;
 
-      const config = industryConfigs[industryName as keyof typeof industryConfigs];
-      if (!config) return;
-
-      // Define realistic companies for each industry
-      const industryCompanies = {
-        technology: [
-          { ticker: 'AAPL', company: 'Apple Inc.' },
-          { ticker: 'GOOGL', company: 'Alphabet Inc.' },
-          { ticker: 'MSFT', company: 'Microsoft Corp.' },
-          { ticker: 'NVDA', company: 'NVIDIA Corp.' },
-          { ticker: 'TSLA', company: 'Tesla Inc.' },
-          { ticker: 'META', company: 'Meta Platforms Inc.' },
-          { ticker: 'AMZN', company: 'Amazon.com Inc.' },
-          { ticker: 'NFLX', company: 'Netflix Inc.' },
-          { ticker: 'CRM', company: 'Salesforce Inc.' },
-          { ticker: 'ORCL', company: 'Oracle Corp.' },
-          { ticker: 'ADBE', company: 'Adobe Inc.' },
-          { ticker: 'INTC', company: 'Intel Corp.' },
-          { ticker: 'AMD', company: 'Advanced Micro Devices' },
-          { ticker: 'CSCO', company: 'Cisco Systems Inc.' },
-          { ticker: 'IBM', company: 'International Business Machines' },
-        ],
-        finance: [
-          { ticker: 'JPM', company: 'JPMorgan Chase & Co.' },
-          { ticker: 'BAC', company: 'Bank of America Corp.' },
-          { ticker: 'WFC', company: 'Wells Fargo & Co.' },
-          { ticker: 'GS', company: 'Goldman Sachs Group Inc.' },
-          { ticker: 'MS', company: 'Morgan Stanley' },
-          { ticker: 'C', company: 'Citigroup Inc.' },
-          { ticker: 'AXP', company: 'American Express Co.' },
-          { ticker: 'BLK', company: 'BlackRock Inc.' },
-          { ticker: 'SCHW', company: 'Charles Schwab Corp.' },
-          { ticker: 'USB', company: 'U.S. Bancorp' },
-          { ticker: 'PNC', company: 'PNC Financial Services' },
-          { ticker: 'TFC', company: 'Truist Financial Corp.' },
-          { ticker: 'COF', company: 'Capital One Financial' },
-          { ticker: 'BK', company: 'Bank of New York Mellon' },
-          { ticker: 'STT', company: 'State Street Corp.' },
-        ],
-        healthcare: [
-          { ticker: 'JNJ', company: 'Johnson & Johnson' },
-          { ticker: 'UNH', company: 'UnitedHealth Group Inc.' },
-          { ticker: 'PFE', company: 'Pfizer Inc.' },
-          { ticker: 'ABT', company: 'Abbott Laboratories' },
-          { ticker: 'MRK', company: 'Merck & Co. Inc.' },
-          { ticker: 'LLY', company: 'Eli Lilly and Co.' },
-          { ticker: 'TMO', company: 'Thermo Fisher Scientific' },
-          { ticker: 'DHR', company: 'Danaher Corp.' },
-          { ticker: 'BMY', company: 'Bristol Myers Squibb' },
-          { ticker: 'MDT', company: 'Medtronic PLC' },
-          { ticker: 'GILD', company: 'Gilead Sciences Inc.' },
-          { ticker: 'AMGN', company: 'Amgen Inc.' },
-          { ticker: 'CVS', company: 'CVS Health Corp.' },
-          { ticker: 'CI', company: 'Cigna Group' },
-          { ticker: 'HUM', company: 'Humana Inc.' },
-        ],
-        energy: [
-          { ticker: 'XOM', company: 'Exxon Mobil Corp.' },
-          { ticker: 'CVX', company: 'Chevron Corp.' },
-          { ticker: 'COP', company: 'ConocoPhillips' },
-          { ticker: 'EOG', company: 'EOG Resources Inc.' },
-          { ticker: 'SLB', company: 'Schlumberger NV' },
-          { ticker: 'PXD', company: 'Pioneer Natural Resources' },
-          { ticker: 'MPC', company: 'Marathon Petroleum Corp.' },
-          { ticker: 'VLO', company: 'Valero Energy Corp.' },
-          { ticker: 'PSX', company: 'Phillips 66' },
-          { ticker: 'OXY', company: 'Occidental Petroleum' },
-          { ticker: 'HAL', company: 'Halliburton Co.' },
-          { ticker: 'BKR', company: 'Baker Hughes Co.' },
-          { ticker: 'HES', company: 'Hess Corp.' },
-          { ticker: 'MRO', company: 'Marathon Oil Corp.' },
-          { ticker: 'DVN', company: 'Devon Energy Corp.' },
-        ],
-        retail: [
-          { ticker: 'AMZN', company: 'Amazon.com Inc.' },
-          { ticker: 'WMT', company: 'Walmart Inc.' },
-          { ticker: 'HD', company: 'Home Depot Inc.' },
-          { ticker: 'COST', company: 'Costco Wholesale Corp.' },
-          { ticker: 'TGT', company: 'Target Corp.' },
-          { ticker: 'LOW', company: 'Lowe\'s Companies Inc.' },
-          { ticker: 'TJX', company: 'TJX Companies Inc.' },
-          { ticker: 'SBUX', company: 'Starbucks Corp.' },
-          { ticker: 'NKE', company: 'Nike Inc.' },
-          { ticker: 'MCD', company: 'McDonald\'s Corp.' },
-          { ticker: 'EBAY', company: 'eBay Inc.' },
-          { ticker: 'ETSY', company: 'Etsy Inc.' },
-          { ticker: 'BBY', company: 'Best Buy Co. Inc.' },
-          { ticker: 'GPS', company: 'Gap Inc.' },
-          { ticker: 'M', company: 'Macy\'s Inc.' },
-        ],
-        aerospace: [
-          { ticker: 'BA', company: 'Boeing Co.' },
-          { ticker: 'LMT', company: 'Lockheed Martin Corp.' },
-          { ticker: 'RTX', company: 'Raytheon Technologies' },
-          { ticker: 'NOC', company: 'Northrop Grumman Corp.' },
-          { ticker: 'GD', company: 'General Dynamics Corp.' },
-          { ticker: 'LHX', company: 'L3Harris Technologies' },
-          { ticker: 'TXT', company: 'Textron Inc.' },
-          { ticker: 'HWM', company: 'Howmet Aerospace Inc.' },
-          { ticker: 'CW', company: 'Curtiss-Wright Corp.' },
-          { ticker: 'AIR', company: 'AAR Corp.' },
-          { ticker: 'SPR', company: 'Spirit AeroSystems' },
-          { ticker: 'HEI', company: 'HEICO Corp.' },
-          { ticker: 'TDG', company: 'TransDigm Group Inc.' },
-          { ticker: 'WWD', company: 'Woodward Inc.' },
-          { ticker: 'AVAV', company: 'AeroVironment Inc.' },
-        ]
-      };
-
-      const industryCompanyList = industryCompanies[config.name as keyof typeof industryCompanies] || [];
-      const companies: CompanyData[] = [];
-      const sentiments: ('positive' | 'neutral' | 'negative')[] = ['positive', 'neutral', 'negative'];
+    // Find the industry data from live data
+    const industry = industries.find(ind => ind.name === industryName);
+    
+    if (industry) {
+      setIndustryData(industry);
       
-      industryCompanyList.forEach((companyInfo) => {
-        const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
-        companies.push({
-          ticker: companyInfo.ticker,
-          company: companyInfo.company,
-          sentiment: randomSentiment,
-          confidence: Math.floor(Math.random() * 30) + 70,
-          price: Math.random() * 500 + 50,
-          change: (Math.random() - 0.5) * 10
-        });
-      });
-
-      setIndustryData({
-        ...config,
-        companies: companies.slice(0, 5) // Keep first 5 for the main data structure
-      });
+      // For the "all companies" view, we can include additional companies that might not be in the main 5
+      // but still use live data for the ones we have
+      const expandedCompanies = [...industry.companies];
       
-      setAllCompanies(companies);
+      // Add additional realistic companies for this industry with live data simulation
+      const additionalCompanies = getAdditionalCompaniesForIndustry(industryName, industry.companies);
+      expandedCompanies.push(...additionalCompanies);
+      
+      setAllCompanies(expandedCompanies);
+    }
+  }, [industryName, industries]);
+
+  // Helper function to add more companies for expanded view
+  const getAdditionalCompaniesForIndustry = (industry: string, existingCompanies: CompanyData[]): CompanyData[] => {
+    const existingTickers = new Set(existingCompanies.map(c => c.ticker));
+    const additionalCompaniesMap: Record<string, Array<{ticker: string, company: string}>> = {
+      technology: [
+        { ticker: 'META', company: 'Meta Platforms Inc.' },
+        { ticker: 'NFLX', company: 'Netflix Inc.' },
+        { ticker: 'CRM', company: 'Salesforce Inc.' },
+        { ticker: 'ORCL', company: 'Oracle Corp.' },
+        { ticker: 'ADBE', company: 'Adobe Inc.' },
+        { ticker: 'INTC', company: 'Intel Corp.' },
+        { ticker: 'AMD', company: 'Advanced Micro Devices' },
+        { ticker: 'CSCO', company: 'Cisco Systems Inc.' },
+        { ticker: 'IBM', company: 'International Business Machines' },
+      ],
+      finance: [
+        { ticker: 'C', company: 'Citigroup Inc.' },
+        { ticker: 'AXP', company: 'American Express Co.' },
+        { ticker: 'BLK', company: 'BlackRock Inc.' },
+        { ticker: 'SCHW', company: 'Charles Schwab Corp.' },
+        { ticker: 'USB', company: 'U.S. Bancorp' },
+        { ticker: 'PNC', company: 'PNC Financial Services' },
+        { ticker: 'TFC', company: 'Truist Financial Corp.' },
+        { ticker: 'COF', company: 'Capital One Financial' },
+      ],
+      healthcare: [
+        { ticker: 'LLY', company: 'Eli Lilly and Co.' },
+        { ticker: 'TMO', company: 'Thermo Fisher Scientific' },
+        { ticker: 'DHR', company: 'Danaher Corp.' },
+        { ticker: 'BMY', company: 'Bristol Myers Squibb' },
+        { ticker: 'MDT', company: 'Medtronic PLC' },
+        { ticker: 'GILD', company: 'Gilead Sciences Inc.' },
+        { ticker: 'AMGN', company: 'Amgen Inc.' },
+        { ticker: 'CVS', company: 'CVS Health Corp.' },
+      ],
+      energy: [
+        { ticker: 'PXD', company: 'Pioneer Natural Resources' },
+        { ticker: 'MPC', company: 'Marathon Petroleum Corp.' },
+        { ticker: 'VLO', company: 'Valero Energy Corp.' },
+        { ticker: 'PSX', company: 'Phillips 66' },
+        { ticker: 'OXY', company: 'Occidental Petroleum' },
+        { ticker: 'HAL', company: 'Halliburton Co.' },
+        { ticker: 'BKR', company: 'Baker Hughes Co.' },
+        { ticker: 'HES', company: 'Hess Corp.' },
+      ],
+      retail: [
+        { ticker: 'LOW', company: 'Lowe\'s Companies Inc.' },
+        { ticker: 'TJX', company: 'TJX Companies Inc.' },
+        { ticker: 'SBUX', company: 'Starbucks Corp.' },
+        { ticker: 'NKE', company: 'Nike Inc.' },
+        { ticker: 'MCD', company: 'McDonald\'s Corp.' },
+        { ticker: 'EBAY', company: 'eBay Inc.' },
+        { ticker: 'ETSY', company: 'Etsy Inc.' },
+        { ticker: 'BBY', company: 'Best Buy Co. Inc.' },
+      ],
+      aerospace: [
+        { ticker: 'LHX', company: 'L3Harris Technologies' },
+        { ticker: 'TXT', company: 'Textron Inc.' },
+        { ticker: 'HWM', company: 'Howmet Aerospace Inc.' },
+        { ticker: 'CW', company: 'Curtiss-Wright Corp.' },
+        { ticker: 'TDG', company: 'TransDigm Group Inc.' },
+        { ticker: 'HEI', company: 'HEICO Corp.' },
+      ]
     };
 
-    if (industryName) {
-      generateIndustryData();
+    const additionalList = additionalCompaniesMap[industry] || [];
+    return additionalList
+      .filter(comp => !existingTickers.has(comp.ticker))
+      .slice(0, 10) // Limit additional companies
+      .map(comp => ({
+        ticker: comp.ticker,
+        company: comp.company,
+        sentiment: (['positive', 'neutral', 'negative'] as const)[Math.floor(Math.random() * 3)],
+        confidence: Math.floor(Math.random() * 30) + 70,
+        // Use the same price generation logic as the live data but with consistent results
+        price: Math.abs(hashCode(comp.ticker) % 1000) + 50,
+        change: ((Math.abs(hashCode(comp.ticker + 'change')) % 200) - 100) / 10, // -10 to +10
+      }));
+  };
+
+  // Hash function for consistent "random" values
+  const hashCode = (str: string): number => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
     }
-  }, [industryName]);
+    return hash;
+  };
 
   if (!industryData) {
     return (
@@ -236,9 +182,23 @@ const Industry = () => {
               </div>
             </div>
             
-            <div className="flex items-center space-x-2 text-sm dashboard-text-secondary">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span>Live Updates</span>
+            <div className="flex items-center space-x-4 text-sm dashboard-text-secondary">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>Live Updates</span>
+              </div>
+              {lastUpdate && (
+                <div className="flex items-center space-x-1">
+                  <span>Last update: {lastUpdate.toLocaleTimeString()}</span>
+                  <button 
+                    onClick={refresh}
+                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                    disabled={isLoading}
+                  >
+                    <RefreshCw className={`h-3 w-3 ${isLoading ? 'animate-spin' : ''}`} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -261,7 +221,11 @@ const Industry = () => {
           
           <div className="grid gap-4">
             {allCompanies.map((company, index) => (
-              <Card key={company.ticker} className="p-4 dashboard-card-hover">
+              <Card 
+                key={company.ticker} 
+                className="p-4 dashboard-card-hover cursor-pointer"
+                onClick={() => navigate(`/company/${company.ticker}`)}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className="text-lg font-bold text-blue-400">
@@ -269,7 +233,7 @@ const Industry = () => {
                     </div>
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-semibold dashboard-text-primary">${company.ticker}</span>
+                        <span className="font-semibold dashboard-text-primary hover:text-blue-300">${company.ticker}</span>
                         <Badge 
                           variant="outline"
                           className={`text-xs ${

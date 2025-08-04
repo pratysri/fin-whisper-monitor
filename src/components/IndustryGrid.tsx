@@ -97,9 +97,13 @@ export function IndustryGrid({ industries }: IndustryGridProps) {
                 <h4 className="text-sm font-medium dashboard-text-secondary">Top Companies</h4>
                 <div className="space-y-2">
                   {industry.companies.slice(0, 5).map((company) => (
-                    <div key={company.ticker} className="flex items-center justify-between py-1">
+                    <div 
+                      key={company.ticker} 
+                      className="flex items-center justify-between py-1 cursor-pointer hover:bg-gray-800/50 px-2 -mx-2 rounded transition-colors"
+                      onClick={() => navigate(`/company/${company.ticker}`)}
+                    >
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium text-blue-400">${company.ticker}</span>
+                        <span className="text-sm font-medium text-blue-400 hover:text-blue-300">${company.ticker}</span>
                         <Badge 
                           variant="outline" 
                           className={`text-xs px-2 py-0 border-gray-700 ${
