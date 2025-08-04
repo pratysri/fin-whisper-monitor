@@ -76,10 +76,10 @@ const Index = () => {
           icon: '🏦',
           sentiment: { positive: 45, neutral: 35, negative: 20 },
           companies: [
-            { ticker: 'JPM', company: 'JPMorgan Chase', sentiment: 'positive', confidence: 75, price: 165.80, change: 1.5 },
-            { ticker: 'BAC', company: 'Bank of America', sentiment: 'neutral', confidence: 68, price: 35.20, change: 0.8 },
-            { ticker: 'GS', company: 'Goldman Sachs', sentiment: 'positive', confidence: 72, price: 385.60, change: 2.1 },
-            { ticker: 'WFC', company: 'Wells Fargo', sentiment: 'negative', confidence: 65, price: 45.30, change: -0.9 },
+            { ticker: 'JPM', company: 'JPMorgan Chase & Co.', sentiment: 'positive', confidence: 75, price: 165.80, change: 1.5 },
+            { ticker: 'BAC', company: 'Bank of America Corp.', sentiment: 'neutral', confidence: 68, price: 35.20, change: 0.8 },
+            { ticker: 'GS', company: 'Goldman Sachs Group Inc.', sentiment: 'positive', confidence: 72, price: 385.60, change: 2.1 },
+            { ticker: 'WFC', company: 'Wells Fargo & Co.', sentiment: 'negative', confidence: 65, price: 45.30, change: -0.9 },
             { ticker: 'MS', company: 'Morgan Stanley', sentiment: 'neutral', confidence: 70, price: 95.40, change: 0.3 },
           ]
         },
@@ -91,9 +91,9 @@ const Index = () => {
           companies: [
             { ticker: 'JNJ', company: 'Johnson & Johnson', sentiment: 'positive', confidence: 80, price: 158.70, change: 1.2 },
             { ticker: 'PFE', company: 'Pfizer Inc.', sentiment: 'neutral', confidence: 72, price: 28.50, change: -0.5 },
-            { ticker: 'UNH', company: 'UnitedHealth Group', sentiment: 'positive', confidence: 85, price: 520.30, change: 4.1 },
+            { ticker: 'UNH', company: 'UnitedHealth Group Inc.', sentiment: 'positive', confidence: 85, price: 520.30, change: 4.1 },
             { ticker: 'ABT', company: 'Abbott Laboratories', sentiment: 'positive', confidence: 78, price: 105.60, change: 2.8 },
-            { ticker: 'MRK', company: 'Merck & Co.', sentiment: 'neutral', confidence: 74, price: 112.40, change: 0.7 },
+            { ticker: 'MRK', company: 'Merck & Co. Inc.', sentiment: 'neutral', confidence: 74, price: 112.40, change: 0.7 },
           ]
         },
         {
@@ -102,11 +102,11 @@ const Index = () => {
           icon: '⚡',
           sentiment: { positive: 40, neutral: 25, negative: 35 },
           companies: [
-            { ticker: 'XOM', company: 'Exxon Mobil', sentiment: 'negative', confidence: 70, price: 108.50, change: -2.1 },
+            { ticker: 'XOM', company: 'Exxon Mobil Corp.', sentiment: 'negative', confidence: 70, price: 108.50, change: -2.1 },
             { ticker: 'CVX', company: 'Chevron Corp.', sentiment: 'neutral', confidence: 68, price: 155.20, change: 0.5 },
             { ticker: 'COP', company: 'ConocoPhillips', sentiment: 'positive', confidence: 72, price: 112.80, change: 1.8 },
-            { ticker: 'SLB', company: 'Schlumberger', sentiment: 'negative', confidence: 65, price: 48.30, change: -1.5 },
-            { ticker: 'EOG', company: 'EOG Resources', sentiment: 'neutral', confidence: 70, price: 125.40, change: 0.8 },
+            { ticker: 'SLB', company: 'Schlumberger NV', sentiment: 'negative', confidence: 65, price: 48.30, change: -1.5 },
+            { ticker: 'EOG', company: 'EOG Resources Inc.', sentiment: 'neutral', confidence: 70, price: 125.40, change: 0.8 },
           ]
         },
         {
@@ -115,10 +115,10 @@ const Index = () => {
           icon: '🛍️',
           sentiment: { positive: 50, neutral: 30, negative: 20 },
           companies: [
-            { ticker: 'AMZN', company: 'Amazon.com', sentiment: 'positive', confidence: 82, price: 145.30, change: 3.5 },
+            { ticker: 'AMZN', company: 'Amazon.com Inc.', sentiment: 'positive', confidence: 82, price: 145.30, change: 3.5 },
             { ticker: 'WMT', company: 'Walmart Inc.', sentiment: 'positive', confidence: 75, price: 68.20, change: 1.2 },
-            { ticker: 'HD', company: 'Home Depot', sentiment: 'neutral', confidence: 70, price: 385.60, change: 0.9 },
-            { ticker: 'COST', company: 'Costco Wholesale', sentiment: 'positive', confidence: 78, price: 725.40, change: 2.8 },
+            { ticker: 'HD', company: 'Home Depot Inc.', sentiment: 'neutral', confidence: 70, price: 385.60, change: 0.9 },
+            { ticker: 'COST', company: 'Costco Wholesale Corp.', sentiment: 'positive', confidence: 78, price: 725.40, change: 2.8 },
             { ticker: 'TGT', company: 'Target Corp.', sentiment: 'negative', confidence: 68, price: 142.50, change: -1.8 },
           ]
         },
@@ -129,10 +129,10 @@ const Index = () => {
           sentiment: { positive: 35, neutral: 40, negative: 25 },
           companies: [
             { ticker: 'BA', company: 'Boeing Co.', sentiment: 'negative', confidence: 75, price: 185.20, change: -2.5 },
-            { ticker: 'LMT', company: 'Lockheed Martin', sentiment: 'neutral', confidence: 72, price: 465.80, change: 0.5 },
+            { ticker: 'LMT', company: 'Lockheed Martin Corp.', sentiment: 'neutral', confidence: 72, price: 465.80, change: 0.5 },
             { ticker: 'RTX', company: 'Raytheon Technologies', sentiment: 'positive', confidence: 70, price: 95.30, change: 1.8 },
-            { ticker: 'NOC', company: 'Northrop Grumman', sentiment: 'neutral', confidence: 68, price: 485.60, change: 1.1 },
-            { ticker: 'GD', company: 'General Dynamics', sentiment: 'positive', confidence: 74, price: 285.40, change: 2.2 },
+            { ticker: 'NOC', company: 'Northrop Grumman Corp.', sentiment: 'neutral', confidence: 68, price: 485.60, change: 1.1 },
+            { ticker: 'GD', company: 'General Dynamics Corp.', sentiment: 'positive', confidence: 74, price: 285.40, change: 2.2 },
           ]
         }
       ];

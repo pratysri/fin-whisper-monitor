@@ -60,21 +60,127 @@ const Industry = () => {
       const config = industryConfigs[industryName as keyof typeof industryConfigs];
       if (!config) return;
 
-      // Generate 50 mock companies for the industry
+      // Define realistic companies for each industry
+      const industryCompanies = {
+        technology: [
+          { ticker: 'AAPL', company: 'Apple Inc.' },
+          { ticker: 'GOOGL', company: 'Alphabet Inc.' },
+          { ticker: 'MSFT', company: 'Microsoft Corp.' },
+          { ticker: 'NVDA', company: 'NVIDIA Corp.' },
+          { ticker: 'TSLA', company: 'Tesla Inc.' },
+          { ticker: 'META', company: 'Meta Platforms Inc.' },
+          { ticker: 'AMZN', company: 'Amazon.com Inc.' },
+          { ticker: 'NFLX', company: 'Netflix Inc.' },
+          { ticker: 'CRM', company: 'Salesforce Inc.' },
+          { ticker: 'ORCL', company: 'Oracle Corp.' },
+          { ticker: 'ADBE', company: 'Adobe Inc.' },
+          { ticker: 'INTC', company: 'Intel Corp.' },
+          { ticker: 'AMD', company: 'Advanced Micro Devices' },
+          { ticker: 'CSCO', company: 'Cisco Systems Inc.' },
+          { ticker: 'IBM', company: 'International Business Machines' },
+        ],
+        finance: [
+          { ticker: 'JPM', company: 'JPMorgan Chase & Co.' },
+          { ticker: 'BAC', company: 'Bank of America Corp.' },
+          { ticker: 'WFC', company: 'Wells Fargo & Co.' },
+          { ticker: 'GS', company: 'Goldman Sachs Group Inc.' },
+          { ticker: 'MS', company: 'Morgan Stanley' },
+          { ticker: 'C', company: 'Citigroup Inc.' },
+          { ticker: 'AXP', company: 'American Express Co.' },
+          { ticker: 'BLK', company: 'BlackRock Inc.' },
+          { ticker: 'SCHW', company: 'Charles Schwab Corp.' },
+          { ticker: 'USB', company: 'U.S. Bancorp' },
+          { ticker: 'PNC', company: 'PNC Financial Services' },
+          { ticker: 'TFC', company: 'Truist Financial Corp.' },
+          { ticker: 'COF', company: 'Capital One Financial' },
+          { ticker: 'BK', company: 'Bank of New York Mellon' },
+          { ticker: 'STT', company: 'State Street Corp.' },
+        ],
+        healthcare: [
+          { ticker: 'JNJ', company: 'Johnson & Johnson' },
+          { ticker: 'UNH', company: 'UnitedHealth Group Inc.' },
+          { ticker: 'PFE', company: 'Pfizer Inc.' },
+          { ticker: 'ABT', company: 'Abbott Laboratories' },
+          { ticker: 'MRK', company: 'Merck & Co. Inc.' },
+          { ticker: 'LLY', company: 'Eli Lilly and Co.' },
+          { ticker: 'TMO', company: 'Thermo Fisher Scientific' },
+          { ticker: 'DHR', company: 'Danaher Corp.' },
+          { ticker: 'BMY', company: 'Bristol Myers Squibb' },
+          { ticker: 'MDT', company: 'Medtronic PLC' },
+          { ticker: 'GILD', company: 'Gilead Sciences Inc.' },
+          { ticker: 'AMGN', company: 'Amgen Inc.' },
+          { ticker: 'CVS', company: 'CVS Health Corp.' },
+          { ticker: 'CI', company: 'Cigna Group' },
+          { ticker: 'HUM', company: 'Humana Inc.' },
+        ],
+        energy: [
+          { ticker: 'XOM', company: 'Exxon Mobil Corp.' },
+          { ticker: 'CVX', company: 'Chevron Corp.' },
+          { ticker: 'COP', company: 'ConocoPhillips' },
+          { ticker: 'EOG', company: 'EOG Resources Inc.' },
+          { ticker: 'SLB', company: 'Schlumberger NV' },
+          { ticker: 'PXD', company: 'Pioneer Natural Resources' },
+          { ticker: 'MPC', company: 'Marathon Petroleum Corp.' },
+          { ticker: 'VLO', company: 'Valero Energy Corp.' },
+          { ticker: 'PSX', company: 'Phillips 66' },
+          { ticker: 'OXY', company: 'Occidental Petroleum' },
+          { ticker: 'HAL', company: 'Halliburton Co.' },
+          { ticker: 'BKR', company: 'Baker Hughes Co.' },
+          { ticker: 'HES', company: 'Hess Corp.' },
+          { ticker: 'MRO', company: 'Marathon Oil Corp.' },
+          { ticker: 'DVN', company: 'Devon Energy Corp.' },
+        ],
+        retail: [
+          { ticker: 'AMZN', company: 'Amazon.com Inc.' },
+          { ticker: 'WMT', company: 'Walmart Inc.' },
+          { ticker: 'HD', company: 'Home Depot Inc.' },
+          { ticker: 'COST', company: 'Costco Wholesale Corp.' },
+          { ticker: 'TGT', company: 'Target Corp.' },
+          { ticker: 'LOW', company: 'Lowe\'s Companies Inc.' },
+          { ticker: 'TJX', company: 'TJX Companies Inc.' },
+          { ticker: 'SBUX', company: 'Starbucks Corp.' },
+          { ticker: 'NKE', company: 'Nike Inc.' },
+          { ticker: 'MCD', company: 'McDonald\'s Corp.' },
+          { ticker: 'EBAY', company: 'eBay Inc.' },
+          { ticker: 'ETSY', company: 'Etsy Inc.' },
+          { ticker: 'BBY', company: 'Best Buy Co. Inc.' },
+          { ticker: 'GPS', company: 'Gap Inc.' },
+          { ticker: 'M', company: 'Macy\'s Inc.' },
+        ],
+        aerospace: [
+          { ticker: 'BA', company: 'Boeing Co.' },
+          { ticker: 'LMT', company: 'Lockheed Martin Corp.' },
+          { ticker: 'RTX', company: 'Raytheon Technologies' },
+          { ticker: 'NOC', company: 'Northrop Grumman Corp.' },
+          { ticker: 'GD', company: 'General Dynamics Corp.' },
+          { ticker: 'LHX', company: 'L3Harris Technologies' },
+          { ticker: 'TXT', company: 'Textron Inc.' },
+          { ticker: 'HWM', company: 'Howmet Aerospace Inc.' },
+          { ticker: 'CW', company: 'Curtiss-Wright Corp.' },
+          { ticker: 'AIR', company: 'AAR Corp.' },
+          { ticker: 'SPR', company: 'Spirit AeroSystems' },
+          { ticker: 'HEI', company: 'HEICO Corp.' },
+          { ticker: 'TDG', company: 'TransDigm Group Inc.' },
+          { ticker: 'WWD', company: 'Woodward Inc.' },
+          { ticker: 'AVAV', company: 'AeroVironment Inc.' },
+        ]
+      };
+
+      const industryCompanyList = industryCompanies[config.name as keyof typeof industryCompanies] || [];
       const companies: CompanyData[] = [];
       const sentiments: ('positive' | 'neutral' | 'negative')[] = ['positive', 'neutral', 'negative'];
       
-      for (let i = 0; i < 50; i++) {
+      industryCompanyList.forEach((companyInfo) => {
         const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
         companies.push({
-          ticker: `${config.name.toUpperCase().slice(0, 3)}${i + 1}`,
-          company: `${config.label} Company ${i + 1}`,
+          ticker: companyInfo.ticker,
+          company: companyInfo.company,
           sentiment: randomSentiment,
           confidence: Math.floor(Math.random() * 30) + 70,
           price: Math.random() * 500 + 50,
           change: (Math.random() - 0.5) * 10
         });
-      }
+      });
 
       setIndustryData({
         ...config,
