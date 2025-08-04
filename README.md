@@ -136,22 +136,12 @@ src/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
 - **Live Demo**: [Coming Soon]
 - **Issues**: [GitHub Issues](https://github.com/pratysri/fin-whisper-monitor/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/pratysri/fin-whisper-monitor/discussions)
-
-## 📞 Support
-
-If you have any questions or need support, please:
-- Open an issue on GitHub
-- Check the existing discussions
-- Review the documentation
 
 ---
 
